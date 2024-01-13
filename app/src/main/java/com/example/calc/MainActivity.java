@@ -1,5 +1,6 @@
 package com.example.calc;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -29,11 +30,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button button9;
     private Button button0;
 
+    private Button buttonClear;
+
     private TextView textView;
 //    private TextView tempTextView;
 
     private List<Button> buttonList = new ArrayList<>(8);
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         GridLayout gridLayout = new GridLayout(this);
 
         // установка количество строк
-        gridLayout.setRowCount(5);
+        gridLayout.setRowCount(6);
         // установка количество столбцов
         gridLayout.setColumnCount(3);
 //
@@ -92,17 +96,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         textView = new TextView(this);
         textView.setText("0");
-        textView.setTextSize(100);
+        textView.setTextSize(75);
         GridLayout.LayoutParams layoutParamsTextView = new GridLayout.LayoutParams();
-        layoutParamsTextView.columnSpec = GridLayout.spec(0);
-        layoutParamsTextView.rowSpec = GridLayout.spec(0, 1);
+        layoutParamsTextView.columnSpec = GridLayout.spec(0,3);
+        layoutParamsTextView.rowSpec = GridLayout.spec(0);
         gridLayout.addView(textView, layoutParamsTextView);
 
+
+        buttonClear = new Button(this);
+        buttonClear.setText("C");
+        buttonClear.setId(11);
+        buttonClear.setOnClickListener(this);
+
+        GridLayout.LayoutParams layoutParamsButtonClear = new GridLayout.LayoutParams();
+        layoutParamsButtonClear.columnSpec = GridLayout.spec(0);
+        layoutParamsButtonClear.rowSpec = GridLayout.spec(1);
+        gridLayout.addView(buttonClear, layoutParamsButtonClear);
 
         button1 = createButton(new Button(this), 1);
 
         GridLayout.LayoutParams layoutParams1 = new GridLayout.LayoutParams();
         layoutParams1.columnSpec = GridLayout.spec(0, 1);
+//        layoutParams1.rowSpec = GridLayout.spec(1);
         layoutParams1.width = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 90, getResources().getDisplayMetrics()
         );
@@ -139,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            gridLayout.addView(button);
 //            i++;
 //        }
-
 
 
 //        for (int i = 0; i < 9; i++) {
@@ -242,41 +256,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return button;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case 1:
-                textView.setText(button1.getText());
-                break;
-            case 2:
-                textView.setText(button2.getText());
-                break;
-            case 3:
-                textView.setText(button3.getText());
-                break;
-            case 4:
-                textView.setText(button4.getText());
-                break;
-            case 5:
-                textView.setText(button5.getText());
-                break;
-            case 6:
-                textView.setText(button6.getText());
-                break;
-            case 7:
-                textView.setText(button7.getText());
-                break;
-            case 8:
-                textView.setText(button8.getText());
-                break;
-            case 9:
-                textView.setText(button9.getText());
-                break;
-            case 0:
-                textView.setText(button0.getText());
-                break;
+    public String addNumber(String oldString, View view) {
+//        String result;
+        switch (oldString) {
+            case "0":
+                textView.setText("");
+                return Integer.toString(view.getId());
             default:
-                break;
+                return oldString + (view.getId());
+        }
+//        String result = oldString + Integer.toString(view.getId());
+//        return result;
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case 11:
+                textView.setText("0");
+            default:
+                textView.setText(addNumber((String) textView.getText(), view));
+
+//            case 1:
+////                textView.setText(button1.getText());
+////                textView.setText(Integer.toString(view.getId()));
+//                textView.setText(addNumber((String) textView.getText(), view));
+//                break;
+//            case 2:
+////                textView.setText(button2.getText());
+//                textView.setText(Integer.toString(view.getId()));
+//                break;
+//            case 3:
+////                textView.setText(button3.getText());
+//                textView.setText(Integer.toString(view.getId()));
+//                break;
+//            case 4:
+////                textView.setText(button4.getText());
+//                textView.setText(Integer.toString(view.getId()));
+//                break;
+//            case 5:
+////                textView.setText(button5.getText());
+//                textView.setText(Integer.toString(view.getId()));
+//                break;
+//            case 6:
+////                textView.setText(button6.getText());
+//                textView.setText(Integer.toString(view.getId()));
+//                break;
+//            case 7:
+////                textView.setText(button7.getText());
+//                textView.setText(Integer.toString(view.getId()));
+//                break;
+//            case 8:
+////                textView.setText(button8.getText());
+//                textView.setText(Integer.toString(view.getId()));
+//                break;
+//            case 9:
+////                textView.setText(button9.getText());
+//                textView.setText(Integer.toString(view.getId()));
+//                break;
+//            case 0:
+////                textView.setText(button0.getText());
+//                textView.setText(Integer.toString(view.getId()));
+//                break;
+//            // кнопка "С"
+//            case 11:
+//                textView.setText("0");
+//            default:
+//                break;
         }
     }
+
+
+
 }
